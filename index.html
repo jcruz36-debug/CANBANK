@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CANBANK - Tienda de Servicios</title>
+  <meta name="description" content="Tienda de servicios bancarios CANBANK - República Dominicana. Abre cuentas, solicita tarjetas y préstamos en línea.">
+  <style>
+    :root{--accent:#0b5ed7;--accent-dark:#063b7a;--muted:#6b7280;--card:#fff;--bg:#f6f9fc;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#0b1724;-webkit-font-smoothing:antialiased}
+    header{background:linear-gradient(90deg,var(--accent),#2a9df4);color:#fff;padding:18px 0;box-shadow:0 6px 18px rgba(11,94,215,0.12)}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:64px;height:64px;border-radius:10px;background:#fff;color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 6px 18px rgba(11,94,215,0.12)}
+    h1{margin:0;font-size:20px}
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{color:rgba(255,255,255,0.95);text-decoration:none;padding:6px 10px;border-radius:8px;font-weight:600}
+    nav a.secondary{background:rgba(255,255,255,0.08)}
+    .hero{padding:26px 0;color:#fff}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:20px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(15,30,60,0.06)}
+    .product-img{width:100%;height:180px;border-radius:8px;object-fit:cover;background:#eef6ff;border:1px solid #eef6ff}
+    .product-title{font-weight:700;margin:8px 0;font-size:16px;color:#05233a}
+    .muted{color:var(--muted);font-size:14px}
+    .options{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+    select,input[type=number],input[type=text],input[type=email],textarea{padding:9px;border-radius:8px;border:1px solid #e6eef6;background:#fbfdff}
+    button{background:var(--accent);color:#fff;border:0;padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .cart-btn{background:#fff;color:var(--accent);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);font-weight:700}
+    .cart-count{background:#ff4d4f;color:#fff;padding:4px 8px;border-radius:999px;font-size:13px;margin-left:8px}
+    footer{margin-top:30px;padding:22px 0;background:#fff;border-top:1px solid #eef3fb}
+    .flex{display:flex;gap:12px;align-items:center}
+    .modal{position:fixed;right:18px;bottom:18px;background:#fff;border-radius:12px;box-shadow:0 20px 40px rgba(10,20,40,0.12);width:420px;max-width:calc(100% - 36px);display:none;z-index:60}
+    .modal.open{display:block}
+    .modal-header{padding:12px;border-bottom:1px solid #eef3fb;display:flex;justify-content:space-between}
+    .modal-body{max-height:420px;overflow:auto;padding:12px}
+    .cart-item{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    .small-img{width:68px;height:48px;border-radius:6px;object-fit:cover;background:#f7fafc;border:1px solid #eef3fb}
+    .checkout{padding:12px;border-top:1px solid #eef3fb}
+    .socials a{margin-right:10px;text-decoration:none;color:var(--muted)}
+    header .wrap{display:flex;justify-content:space-between;align-items:center}
+    .hero p.lead{margin:8px 0 0;opacity:0.95}
+    @media (max-width:720px){.brand h1{font-size:18px}.modal{width:95%}}
+    .contact-card{display:flex;gap:16px;align-items:flex-start}
+    .contact-form{flex:1}
+    .contact-info{min-width:220px;background:#f8fbff;padding:12px;border-radius:8px;border:1px solid #eef6ff}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">CB</div>
+        <div>
+          <h1>CANBANK</h1>
+          <div style="color:rgba(255,255,255,0.92)">Soluciones bancarias profesionales — República Dominicana</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#catalog" class="secondary">Servicios</a>
+        <a href="#contact">Contacto</a>
+        <a href="#about">Sobre CANBANK</a>
+        <button class="cart-btn" id="openCart">Carrito <span class="cart-count" id="cartCount">0</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h2 style="margin:0;color:#fff">Tu banco digital confiable</h2>
+      <p class="lead">Abre cuentas, solicita tarjetas y accede a financiamiento con procesos claros y soporte profesional.</p>
+    </div>
+  </section>
+
+  <main class="wrap" style="padding:22px 16px 60px">
+    <section id="catalog">
+      <h3 style="margin:0 0 8px 0;color:#05233a">Catálogo de servicios</h3>
+      <p class="muted">5 servicios principales — imágenes integradas como ilustrativas.</p>
+      <div class="grid" id="productsGrid"></div>
+    </section>
+
+    <section style="margin-top:22px" id="about">
+      <div class="card">
+        <h4>Sobre CANBANK</h4>
+        <p class="muted">CANBANK es una entidad financiera ficticia creada para el ejercicio académico. Esta tienda simula el proceso de solicitud de servicios bancarios. En producción, implemente KYC, pasarela de pago y backend seguro.</p>
+      </div>
+    </section>
+
+    <section style="margin-top:22px" id="contactSection">
+      <div class="card contact-card">
+        <div class="contact-form">
+          <h4>Formulario de solicitud / Contacto</h4>
+          <p class="muted">Rellena el formulario para solicitar un servicio o contactarnos. Esto simula el envío y guarda la solicitud en el navegador.</p>
+          <label>Nombre completo</label><br>
+          <input id="c_name" type="text" placeholder="Ej. Juan Pérez" style="width:100%;margin-bottom:8px"><br>
+          <label>Correo</label><br>
+          <input id="c_email" type="email" placeholder="ejemplo@correo.com" style="width:100%;margin-bottom:8px"><br>
+          <label>Servicio de interés</label><br>
+          <select id="c_service" style="width:100%;margin-bottom:8px">
+            <option>Cuenta Corriente</option>
+            <option>Cuenta de Ahorros</option>
+            <option>Tarjeta de Crédito</option>
+            <option>Préstamo Personal</option>
+            <option>Banca Empresarial</option>
+          </select>
+          <label>Mensaje</label><br>
+          <textarea id="c_msg" style="width:100%;height:90px;margin-bottom:8px"></textarea>
+          <div style="display:flex;justify-content:flex-end;gap:8px">
+            <button id="sendContact">Enviar solicitud</button>
+          </div>
+        </div>
+        <div class="contact-info">
+          <strong>Contacto CANBANK</strong>
+          <div class="muted" style="margin-top:8px">Tel: +1 (809) 000-0000<br>Email: soporte@canbank.test<br>Sucursales: SD, Santiago, La Romana</div>
+          <div style="margin-top:12px"><strong>Horario</strong><div class="muted">Lun-Vie 8:00 - 17:00</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <div>
+        <strong>CANBANK</strong>
+        <div class="muted">Derechos reservados &copy; CANBANK 2025</div>
+      </div>
+      <div class="muted">Términos y condiciones • Política de privacidad</div>
+    </div>
+  </footer>
+
+  <!-- Cart modal -->
+  <div class="modal" id="cartModal" aria-hidden="true">
+    <div class="modal-header">
+      <div><strong>Carrito</strong> <span id="cartItemsCount" class="muted"></span></div>
+      <div><button id="closeCart">Cerrar</button></div>
+    </div>
+    <div class="modal-body" id="cartBody"></div>
+    <div class="checkout">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><strong>Total:</strong> <span id="cartTotal">RD$0.00</span></div>
+        <div>
+          <button id="clearCart" style="background:#ff4d4f">Vaciar</button>
+          <button id="goCheckout">Solicitar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const products = [
+  {
+    id: 'svc-001',
+    title: 'Cuenta Corriente CANBANK',
+    image: 'images/cuenta_corriente.jpg',
+    description: 'Cuenta corriente para clientes particulares. Acceso a banca en línea, chequera y transferencias ilimitadas. Ideal para manejo diario de finanzas personales.',
+    options: [{name:'Paquete', values:['Básico','Premium','Empresarial']},{name:'Tarjeta', values:['Débito','Crédito (solicitud)']}]
+  },
+  {
+    id: 'svc-002',
+    title: 'Cuenta de Ahorros CANBANK',
+    image: 'images/cuenta_ahorros.jpg',
+    description: 'Cuenta de ahorros con interés competitivo y opciones de plazos. Ideal para metas financieras y ahorro programado.',
+    options: [{name:'Moneda', values:['DOP','USD']},{name:'Plan', values:['Mensual','Trimestral','Anual']}]
+  },
+  {
+    id: 'svc-003',
+    title: 'Tarjeta de Crédito CANBANK',
+    image: 'images/tarjeta_credito.jpg',
+    description: 'Tarjeta con recompensas, cashback y pagos diferidos. Límites personalizados según evaluación.',
+    options: [{name:'Tipo', values:['Classic','Gold','Platinum']},{name:'Programa', values:['Puntos','Cashback','Millas']}]
+  },
+  {
+    id: 'svc-004',
+    title: 'Préstamo Personal',
+    image: 'images/prestamo_personal.jpg',
+    description: 'Préstamos personales para consumo, estudios o imprevistos. Plazos flexibles y aprobación sujeta a evaluación crediticia.',
+    options: [{name:'Monto', values:['RD$10,000','RD$50,000','RD$200,000','Otro']},{name:'Plazo', values:['6','12','24','36 meses']}]
+  },
+  {
+    id: 'svc-005',
+    title: 'Banca Empresarial',
+    image: 'images/banca_empresarial.jpg',
+    description: 'Soluciones para empresas: cuentas empresariales, líneas de crédito, manejo de nómina y cobranza.',
+    options: [{name:'Tamaño', values:['Micro','Pequeña','Mediana','Grande']},{name:'Servicio', values:['Nómina','Cobranza','Línea de crédito']}]
+  }
+];
+
+const grid = document.getElementById('productsGrid');
+function render(){
+  grid.innerHTML='';
+  products.forEach(p=>{
+    const card = document.createElement('div'); card.className='card';
+    card.innerHTML = `
+      <img class="product-img" src="${p.image}" alt="${p.title}" onerror="this.onerror=null;this.src='images/placeholder_generic.jpg'">
+      <div style="padding-top:8px">
+        <div class="product-title">${p.title}</div>
+        <div class="muted">${p.description}</div>
+        <div class="options">
+          ${p.options.map((o,idx)=>`<label>${o.name}</label><select data-prod="${p.id}" data-opt="${idx}">${o.values.map(v=>`<option>${v}</option>`).join('')}</select>`).join('')}
+        </div>
+        <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+          <button data-add="${p.id}">Agregar al carrito</button>
+          <div class="muted">Precio: Servicio (acuerdo)</div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+render();
+
+// Cart logic
+let cart = JSON.parse(localStorage.getItem('canbank_cart')||'[]');
+function saveCart(){ localStorage.setItem('canbank_cart', JSON.stringify(cart)); updateCount(); }
+function updateCount(){ document.getElementById('cartCount').textContent = cart.length; document.getElementById('cartItemsCount').textContent = cart.length?`(${cart.length} items)`:''; }
+
+document.addEventListener('click', (e)=>{
+  const add = e.target.closest('[data-add]');
+  if(add){
+    const id = add.getAttribute('data-add');
+    const prod = products.find(x=>x.id===id);
+    const selects = Array.from(document.querySelectorAll(`select[data-prod="${id}"]`));
+    const opts = selects.map(s=>({name: products.find(p=>p.id===id).options[s.getAttribute('data-opt')].name, value: s.value}));
+    cart.push({id:prod.id,title:prod.title,options:opts});
+    saveCart(); alert('Servicio agregado al carrito');
+  }
+  const rem = e.target.closest('[data-remove]');
+  if(rem){ cart.splice(Number(rem.getAttribute('data-remove')),1); saveCart(); renderCartBody(); }
+});
+
+// Cart modal
+const cartModal = document.getElementById('cartModal');
+document.getElementById('openCart').addEventListener('click', ()=>{ renderCartBody(); cartModal.classList.add('open'); });
+document.getElementById('closeCart').addEventListener('click', ()=>cartModal.classList.remove('open'));
+
+function renderCartBody(){
+  const body = document.getElementById('cartBody'); body.innerHTML='';
+  if(cart.length===0){ body.innerHTML='<div class="muted">El carrito está vacío.</div>'; document.getElementById('cartTotal').textContent='RD$0.00'; updateCount(); return; }
+  cart.forEach((it,idx)=>{
+    const p = products.find(x=>x.id===it.id) || {};
+    const el = document.createElement('div'); el.className='cart-item';
+    el.innerHTML = `<img class="small-img" src="${p.image}" onerror="this.onerror=null;this.src='images/placeholder_generic.jpg'"><div style="flex:1"><strong>${it.title}</strong><div class="muted">${it.options.map(o=>o.name+': '+o.value).join(' • ')}</div></div><div style="text-align:right"><button data-remove="${idx}">Eliminar</button></div>`;
+    body.appendChild(el);
+  });
+  document.getElementById('cartTotal').textContent='RD$0.00';
+  updateCount();
+}
+
+document.getElementById('clearCart').addEventListener('click', ()=>{ if(confirm('Vaciar carrito?')){ cart=[]; saveCart(); renderCartBody(); }});
+document.getElementById('goCheckout').addEventListener('click', ()=>{ if(cart.length===0){ alert('El carrito está vacío'); return } cartModal.classList.remove('open'); alert('Solicitud enviada. Revisa solicitudes en el almacenamiento local.'); const orders = JSON.parse(localStorage.getItem('canbank_orders')||'[]'); orders.push({id:'ORD-'+Date.now(), items:cart, created:new Date().toISOString()}); localStorage.setItem('canbank_orders', JSON.stringify(orders)); cart=[]; saveCart(); renderCartBody(); });
+
+updateCount(); renderCartBody();
+
+// Contact form
+document.getElementById('sendContact').addEventListener('click', ()=>{
+  const name = document.getElementById('c_name').value.trim();
+  const email = document.getElementById('c_email').value.trim();
+  const service = document.getElementById('c_service').value;
+  const msg = document.getElementById('c_msg').value.trim();
+  if(!name||!email){ alert('Por favor completa nombre y correo'); return; }
+  const contacts = JSON.parse(localStorage.getItem('canbank_contacts')||'[]');
+  const entry = {id:'CT-'+Date.now(), name, email, service, msg, created:new Date().toISOString()};
+  contacts.push(entry); localStorage.setItem('canbank_contacts', JSON.stringify(contacts));
+  alert('Solicitud enviada. ID: '+entry.id);
+  document.getElementById('c_name').value=''; document.getElementById('c_email').value=''; document.getElementById('c_msg').value=''; document.getElementById('c_service').selectedIndex=0;
+});
+</script>
+</body>
+</html>
